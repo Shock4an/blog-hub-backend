@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "proxy": "http://localhost:4444",
+  "homepage": ".",
   "scripts": {
     "start:dev": "nodemon index.js",
     "start": "node index.js"
