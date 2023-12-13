@@ -12,7 +12,7 @@ import * as UserController from "./controllers/UserController.js";
 import * as PostController from "./controllers/PostController.js"
 
 mongoose
-	.connect('mongodb+srv://admin:admin@cluster0.1cwhv02.mongodb.net/foodhub')
+	.connect(process.env.MONGODB_URI)
 	.then(() => console.log("DataBase Started"))
 	.catch((err) => console.log(err));
 
@@ -56,7 +56,7 @@ app.patch("/posts/:id", checkAuth, postCreateValidation, handleValidationErrors,
 
 
 
-app.listen(4444, (err) => {
+app.listen(process.env.POST || 4444, (err) => {
 	if (err) {
 		return console.log(err);
 	}
