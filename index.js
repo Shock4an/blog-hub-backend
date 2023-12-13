@@ -12,7 +12,7 @@ import * as UserController from "./controllers/UserController.js";
 import * as PostController from "./controllers/PostController.js"
 
 mongoose
-	.connect(process.env.MONGODB_URI)
+	.connect(process.env.MONGODB_URI || 'mongodb+srv://admin:admin@cluster0.1cwhv02.mongodb.net/foodhub')
 	.then(() => console.log("DataBase Started"))
 	.catch((err) => console.log(err));
 
