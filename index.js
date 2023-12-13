@@ -59,7 +59,7 @@ app.patch("/posts/:id", checkAuth, postCreateValidation, handleValidationErrors,
 app.listen(process.env.POST || 4444, (err) => {
 	if (err) {
 		return console.log(err);
-	}
+	} 
 
 	console.log("Server started")
 })
