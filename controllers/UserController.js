@@ -5,7 +5,6 @@ import UserModel from "../models/User.js";
 
 
 export const register = async (req, res) => {
-
 	try {
 
 		const password = req.body.password;
@@ -69,6 +68,8 @@ export const login = async (req, res) => {
 
 		const { passwordHash, ...userData } = user._doc
 
+    console.log(`[SERVER]: user logged`)
+
 		res.json({
 			...userData,
 			token,
@@ -93,7 +94,7 @@ export const getMe = async (req, res) => {
 		}
 
 		const { passwordHash, ...userData } = user._doc
-
+    console.log(`[SERVER]: user logged`)
 		res.json(userData);
 	} catch (err) {
 		return res.status(500).json({

@@ -5,27 +5,30 @@ import multer from "multer";
 
 import { registerValidation, loginValidation } from "./validations/auth.js";
 import { postCreateValidation } from "./validations/post.js";
+import { productCreateValidation } from "./validations/product.js"
 import handleValidationErrors from "./utils/handleValidationErrors.js";
 
 import checkAuth from "./utils/checkAuth.js";
 import * as UserController from "./controllers/UserController.js";
 import * as PostController from "./controllers/PostController.js"
+import * as ProductController from "./controllers/ProductController.js"
+import { check } from "express-validator";
 
 mongoose
-	.connect(process.env.MONGODB_URI || 'mongodb+srv://admin:admin@cluster0.1cwhv02.mongodb.net/foodhub')
-	.then(() => console.log("DataBase Started"))
-	.catch((err) => console.log(err));
+  .connect(process.env.MONGODB_URI || 'mongodb+srv://admin:admin@cluster0.1cwhv02.mongodb.net/new-app')
+  .then(() => console.log("DataBase Started"))
+  .catch((err) => console.log(err));
 
 
 const app = express();
 
 const storage = multer.diskStorage({
-	destination: (_, __, cb) => {
-		cb(null, 'uploads');
-	},
-	filename: (_, file, cb) => {
-		cb(null, file.originalname);
-	},
+  destination: (_, __, cb) => {
+    cb(null, 'uploads');
+  },
+  filename: (_, file, cb) => {
+    cb(null, file.originalname);
+  },
 })
 
 const upload = multer({ storage });
@@ -42,10 +45,10 @@ app.post("/auth/login", loginValidation, handleValidationErrors, UserController.
 app.get("/auth/me", checkAuth, UserController.getMe)
 
 app.post("/upload", checkAuth, upload.single('image'), (req, res) => {
-	console.log(req.file.originalname)
-	res.json({
-		url: `/uploads/${req.file.originalname}`,
-	})
+  console.log(req.file.originalname)
+  res.json({
+    url: `/uploads/${req.file.originalname}`,
+  })
 })
 
 app.get("/posts", PostController.getAll);
@@ -54,13 +57,19 @@ app.post("/posts", checkAuth, postCreateValidation, handleValidationErrors, Post
 app.delete("/posts/:id", checkAuth, PostController.remove);
 app.patch("/posts/:id", checkAuth, postCreateValidation, handleValidationErrors, PostController.update);
 
+app.get("/items", ProductController.getAll)
+app.get("/items/:id", ProductController.getOne)
+app.post("/items", checkAuth, productCreateValidation, handleValidationErrors, ProductController.create)
+app.delete("/items/:id", checkAuth, ProductController.remove)
+app.patch("/items/:id", checkAuth, productCreateValidation, handleValidationErrors, ProductController.update)
 
+app.get('')
 
 
 app.listen(process.env.PORT || 4444, (err) => {
-	if (err) {
-		return console.log(err);
-	}
+  if (err) {
+    return console.log(err);
+  }
 
-	console.log("Server started")
+  console.log("Server started")
 })
