@@ -9,10 +9,17 @@ import { productCreateValidation } from "./validations/product.js"
 import handleValidationErrors from "./utils/handleValidationErrors.js";
 
 import checkAuth from "./utils/checkAuth.js";
+
 import * as UserController from "./controllers/UserController.js";
 import * as PostController from "./controllers/PostController.js"
 import * as ProductController from "./controllers/ProductController.js"
+import * as ItemController from "./controllers/ItemController.js"
+import * as OrderController from "./controllers/OrderController.js"
+
+import Item from './models/Item.js'
+
 import { check } from "express-validator";
+import { orderCreateValidation } from "./validations/order.js";
 
 mongoose
   .connect(process.env.MONGODB_URI || 'mongodb+srv://admin:admin@cluster0.1cwhv02.mongodb.net/new-app')
@@ -57,13 +64,17 @@ app.post("/posts", checkAuth, postCreateValidation, handleValidationErrors, Post
 app.delete("/posts/:id", checkAuth, PostController.remove);
 app.patch("/posts/:id", checkAuth, postCreateValidation, handleValidationErrors, PostController.update);
 
-app.get("/items", ProductController.getAll)
-app.get("/items/:id", ProductController.getOne)
-app.post("/items", checkAuth, productCreateValidation, handleValidationErrors, ProductController.create)
-app.delete("/items/:id", checkAuth, ProductController.remove)
-app.patch("/items/:id", checkAuth, productCreateValidation, handleValidationErrors, ProductController.update)
+// app.get("/items", ProductController.getAll)
+// app.get("/items/:id", ProductController.getOne)
+// app.post("/items", checkAuth, productCreateValidation, handleValidationErrors, ProductController.create)
+// app.delete("/items/:id", checkAuth, ProductController.remove)
+// app.patch("/items/:id", checkAuth, productCreateValidation, handleValidationErrors, ProductController.update)
 
-app.get('')
+app.get("/items", ItemController.getAll)
+// app.get("/items/:id", checkAuth, ItemController.getOne)
+app.post("/items/order", checkAuth, orderCreateValidation, handleValidationErrors, OrderController.create)
+app.get("/items/orders", checkAuth, OrderController.getAll)
+app.delete("/items/order/:id", checkAuth, OrderController.remove)
 
 
 app.listen(process.env.PORT || 4444, (err) => {
@@ -72,4 +83,46 @@ app.listen(process.env.PORT || 4444, (err) => {
   }
 
   console.log("Server started")
+
+  const items = [
+    {
+      name: 'Counter Strike 2',
+      price: 5.99,
+      imageUrl: 'cs2.jpg'
+    },
+    {
+      name: 'Red Dead Redemptiom',
+      price: 9.99,
+      imageUrl: 'Red_Dead_Redemption_II.jpg'
+    },
+    {
+      name: 'Frostpunk', 
+      price: 8.99,
+      imageUrl: 'logopunk.jpg'
+    },
+    {
+      name: 'Horizon Zero Dawn', 
+      price: 4.99,
+      imageUrl: 'horizon.jpeg'
+    },
+    {
+      name: 'Skirym', 
+      price: 4.99,
+      imageUrl: 'skyrim.jpg'
+    },
+    {
+      name: 'Starfield', 
+      price: 4.99,
+      imageUrl: 'starfield.jpg'
+    },
+    {
+      name: 'Fallout 4', 
+      price: 4.99,
+      imageUrl: 'fallout4.jpg'
+    }
+  ]
+
+  for(let i = 0; i < items.length; i++ ) {
+    Item.create(items[i])
+  }
 })
