@@ -8,7 +8,6 @@ export default (req, res, next) => {
       const decoded = jwt.verify(token, "crypt");
 
       req.userId = decoded._id;
-      console.log(`[SERVER]: user is defined`)
       next();
     } catch (err) {
       return res.status(403).json({
