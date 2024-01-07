@@ -83,46 +83,4 @@ app.listen(process.env.PORT || 4444, (err) => {
   }
 
   console.log("Server started")
-
-  const items = [
-    {
-      name: 'Counter Strike 2',
-      price: 5.99,
-      imageUrl: 'cs2.jpg'
-    },
-    {
-      name: 'Red Dead Redemptiom',
-      price: 9.99,
-      imageUrl: 'Red_Dead_Redemption_II.jpg'
-    },
-    {
-      name: 'Frostpunk', 
-      price: 8.99,
-      imageUrl: 'logopunk.jpg'
-    },
-    {
-      name: 'Horizon Zero Dawn', 
-      price: 4.99,
-      imageUrl: 'horizon.jpeg'
-    },
-    {
-      name: 'Skirym', 
-      price: 4.99,
-      imageUrl: 'skyrim.jpg'
-    },
-    {
-      name: 'Starfield', 
-      price: 4.99,
-      imageUrl: 'starfield.jpg'
-    },
-    {
-      name: 'Fallout 4', 
-      price: 4.99,
-      imageUrl: 'fallout4.jpg'
-    }
-  ]
-
-  for(let i = 0; i < items.length; i++ ) {
-    Item.create(items[i])
-  }
 })
