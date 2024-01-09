@@ -82,14 +82,6 @@ app.listen(process.env.PORT || 4444, (err) => {
     return console.log(err);
   }
 
-  const newItem = new Item({
-    name: 'Devil\'s Bounty',
-    price: 2,
-    imageUrl: 'Devils_Bounty.png'
-  })
-
-  newItem.save()
-
 
 
   console.log("Server started")
